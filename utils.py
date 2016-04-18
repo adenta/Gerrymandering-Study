@@ -92,30 +92,11 @@ def getColumnDistrict(state,fnYear,number):
         return district
 
 
-def getFlatDistrict(state,fnYear,number):
-    with open(fnYear) as yearTable:
-        district = {}
-        districts = csv.DictReader(yearTable)
-        for partialDistrict in districts:
-
-            stateKey = partialDistrict['State']
-
-
-            partialDistrictNumber = cleanNumber(partialDistrict['DISTRICT'])
-            matchingConditions = stateKey.lower() == state.lower() and partialDistrictNumber == number
-            if matchingConditions:
-                district['D'] = partialDistrict['Democratic General']
-                district['R'] = partialDistrict['Republican General']
-                district['O'] = partialDistrict['Other General']
-                return district
 
 # for a given state district, for a given year, return a dictionary that tells how many democratic votes were cast,
 # and how many republican votes were cast, and how many other votes were cast.
 def getDistrict(state,fnYear, number):
-    if "flat" in fnYear:
-        return getFlatDistrict(state,fnYear,number)
-    else:
-        return getColumnDistrict(state,fnYear,number)
+        return getColumnDistrict(state,fnYear,number) # this change was made to originally occomidate different data formats, but the files were standardized.
 
 
 def getDistrictHistory(state,number):
