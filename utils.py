@@ -12,7 +12,7 @@ folder = "tables"
 
 paths = [os.path.join(folder,fn) for fn in next(os.walk(folder))[2]]
 
-years = [int(year[7:-4]) for year in paths]
+years = [int(year[7:-4].replace("-flat","")) for year in paths]
 
 def cleanNumber(numString):
 
@@ -45,6 +45,7 @@ def castToInt(numString):
 
     return cast
 
+
 # for a given year and state, return a dictionary of all the districts, and what that district voted for.
 def getDistricts( state, fnYear):
     districts = {};
@@ -56,10 +57,7 @@ def getDistricts( state, fnYear):
 
     return districts
 
-
-# for a given state district, for a given year, return a dictionary that tells how many democratic votes were cast,
-# and how many republican votes were cast, and how many other votes were cast.
-def getDistrict(state,fnYear, number):
+def getColumnDistrict(state,fnYear,number):
     with open(fnYear) as yearTable:
         district = {}
         districts = csv.DictReader(yearTable)
@@ -93,6 +91,20 @@ def getDistrict(state,fnYear, number):
 
 
         return district
+
+
+def getFlatDistrict(state,fnYear,number):
+    return {}
+
+
+# for a given state district, for a given year, return a dictionary that tells how many democratic votes were cast,
+# and how many republican votes were cast, and how many other votes were cast.
+def getDistrict(state,fnYear, number):
+    if "flat" in fnYear:
+        return getFlatDistrict(state,fnYear,number)
+    else:
+        return getColumnDistrict(state,fnYear,number)
+
 
 def getDistrictHistory(state,number):
     district = {}
