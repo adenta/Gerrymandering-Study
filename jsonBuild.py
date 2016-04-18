@@ -1,10 +1,12 @@
-import utils, csv, os, json
+import utils, csv, os, json,time
 
 folder = "tables"
 
 paths = [os.path.join(folder,fn) for fn in next(os.walk(folder))[2]]
 data = {}
 states = {}
+
+start = time.time()
 for state in utils.states:
     districts = {};
     for i in range(100):
@@ -15,6 +17,8 @@ for state in utils.states:
 
 
 
-alabama = {"bama":states}
 out =  open("states.json","w")
-out.write( json.dumps(alabama,indent=2))
+out.write( json.dumps(states,indent=2))
+
+end =  time.time()
+print (end-start)/60,"minutes elapsed."

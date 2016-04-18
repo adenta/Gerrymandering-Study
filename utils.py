@@ -1,4 +1,6 @@
 import csv, os
+import copy
+from itertools import izip
 
 parties = ['D','R']
 
@@ -10,6 +12,8 @@ folder = "tables"
 
 paths = [os.path.join(folder,fn) for fn in next(os.walk(folder))[2]]
 
+years = [int(year[7:-4]) for year in paths]
+
 def cleanNumber(numString):
 
     if "." in numString:
@@ -18,7 +22,28 @@ def cleanNumber(numString):
         try:
             return int(numString)
         except ValueError:
-            return -1
+            return numString
+
+def castToInt(numString):
+    cast = None
+    try:
+
+        cast = float(numString)
+        return cast
+    except ValueError:
+        try:
+            numList = [n for n in numString[1:-1] if n.isdigit() ]
+            cast = int("".join(numList))
+            return cast
+        except ValueError:
+            if numString == "":
+                return -1
+            else:
+                return 0
+
+
+
+    return cast
 
 # for a given year and state, return a dictionary of all the districts, and what that district voted for.
 def getDistricts( state, fnYear):
@@ -49,13 +74,18 @@ def getDistrict(state,fnYear, number):
             except KeyError:
                 votes = partialDistrict['GENERAL RESULTS']
 
+            ogVotes = copy.deepcopy(votes)
+            votes = castToInt(votes)
             partialDistrictNumber = cleanNumber(partialDistrict['DISTRICT'])
-            isDataClean = votes is not "" and partialDistrict['PARTY'] is not ""
+            isDataClean = partialDistrict['PARTY'] is not ""
             matchingConditions = stateKey.lower() == state.lower() and partialDistrictNumber == number
 
             if isDataClean and matchingConditions:
 
-                district[partialDistrict['PARTY'][:1]] = votes
+                try:
+                    district[partialDistrict['PARTY'][:1]] = max(int(votes),district[partialDistrict['PARTY'][:1]])
+                except KeyError:
+                    district[partialDistrict['PARTY'][:1]] = int(votes)
 
                  # this conditional makes things run quicker, however; it also only lets us look at republican and democrats.
                 if all(key in district for key in parties):
@@ -66,8 +96,8 @@ def getDistrict(state,fnYear, number):
 
 def getDistrictHistory(state,number):
     district = {}
-    for route in paths:
+    for route, year in izip(paths,years):
         dist = getDistrict(state,route,number)
         if dist:
-            district[route] = dist
+            district[year] = dist
     return district
