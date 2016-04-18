@@ -7,7 +7,7 @@ data = {}
 states = {}
 
 start = time.time()
-for state in utils.states:
+for state in ["AK"]:
     districts = {};
     for i in range(100):
         district =  utils.getDistrictHistory(state,i)
