@@ -104,5 +104,5 @@ def getDistrictHistory(state,number):
     for route, year in izip(paths,years):
         dist = getDistrict(state,route,number)
         if dist:
-            district[year] = dist
+            district[int(year)] = dist
     return district

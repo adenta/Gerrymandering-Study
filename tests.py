@@ -1,4 +1,5 @@
 import utils, os, json,csv
+from States import States
 
 
 
@@ -14,5 +15,9 @@ assert utils.getDistrict("AZ","./tables/2010.csv",101)== {}, "problem with edge 
 assert utils.getDistrict("AZ","./tables/2002.csv",2)['R'] == 100359.0,"problem reading from 2002"
 assert utils.getDistrict("AL","./tables/2000.csv",2)['D'] == 64958.0,"problem reading from 2000"
 
+states = States()
+
+print states.getState("AK")
+states.printState("OH")
 
 print "all tests pass!"
