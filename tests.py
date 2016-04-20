@@ -17,7 +17,11 @@ assert utils.getDistrict("AL","./tables/2000.csv",2)['D'] == 64958.0,"problem re
 
 states = States()
 
-print states.getState("AK")
-states.printState("OH")
+def testValueWithin(value,lower,higher):
+    return value > lower and value < higher
+
+assert testValueWithin(states.getDistrictRepub("WA",04,2000),0.62,0.63), "both numbers present test case fails."
+assert testValueWithin(states.getDistrictRepub("WA",05,2000),x,y), "republican -1 case fails."
+
 
 print "all tests pass!"
