@@ -16,7 +16,7 @@ class States:
         assert strState in self.stateStrings, "Not a valid US state."
         print json.dumps(self.states[strState], indent = 2)
 
-    def getDistrict(self,strState,distNum,year):
+    def sanatizeInputs(self,distNum,year):
         if isinstance(distNum,basestring):
             sanatizedDistNum = distNum
         else:
@@ -26,7 +26,16 @@ class States:
             sanatizedYear = year
         else:
             sanatizedYear = str(year)
+        return [sanatizedDistNum,sanatizedYear]
+
+    def getDistrict(self,strState,distNum,year):
+        sanatizedDistNum, sanatizedYear = self.sanatizeInputs(distNum,year)
         return self.states[strState][sanatizedDistNum][sanatizedYear]
+
+    def getDistrictHistory(self,strState,distNum):
+        pass
+
+
 
     #returns the percentage of republican votes to democratic votes
     def getDistrictRepub(self,strState,distNum,year):
@@ -42,7 +51,7 @@ class States:
             if district['R'] ==-1:
                 print "Warning! missing election- Repub:",strState,distNum,year
             return 0
-            
+
         if district['D']<=1:
             if district['D'] == -1:
                 print "Warning! missing election- Demo:",strState,distNum,year
@@ -50,7 +59,7 @@ class States:
 
         return district['R']/float(district['R'] + district['D'])
 
-    def getDistrictDemo(self,strState,distNum,year):
+    def getDistrictDemo(self,strState,distNum,year): # returns percentage of democrats against total votes for a given district- state- year
         return 1.0-getDistrictRepub(self,strState,distNum,year)
 
     def printAllDistricts(self):
@@ -59,9 +68,6 @@ class States:
                 for year in self.states[strState][district].keys():
                     print "REP %",self.getDistrictRepub(strState,district,year)
 
-
-    """def statesIterator(self):
-        for strState in self.states.keys():
-            for district in self.getState(strState):
-                for year in self.states[strState][district].keys():
-"""
+    # returns dictionary of the changes between each district over time.
+    def getDistrictChanges(self,strState,distNum):
+        deltaPercentages = {}
