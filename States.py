@@ -5,7 +5,6 @@ class States:
     stateFile = open('states.json','r')
     states = yaml.safe_load(stateFile.read())
     stateStrings = states.keys()
-    errors = Counter()
 
 
     def getState(self,strState):
@@ -42,14 +41,13 @@ class States:
         if district['R']<=1:
             if district['R'] ==-1:
                 print "Warning! missing election- Repub:",strState,distNum,year
-            self.errors.update({strState:1})
             return 0
+            
         if district['D']<=1:
             if district['D'] == -1:
                 print "Warning! missing election- Demo:",strState,distNum,year
-
-            self.errors.update({strState:1})
             return 1
+
         return district['R']/float(district['R'] + district['D'])
 
     def getDistrictDemo(self,strState,distNum,year):
@@ -61,8 +59,6 @@ class States:
                 for year in self.states[strState][district].keys():
                     print "REP %",self.getDistrictRepub(strState,district,year)
 
-        print self.errors
-        print sum(self.errors.values()),"total errors."
 
     """def statesIterator(self):
         for strState in self.states.keys():
