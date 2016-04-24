@@ -30,5 +30,6 @@ assert states.getDistrictRepub("FL",2,2006) == 0, "Democratic Unopposed case fai
 
 # Extra printed content
 states.printDistrictReport("NC",12)
+print states.getStateVarianceHistory("KY")
 
 print "all tests pass!"

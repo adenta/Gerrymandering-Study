@@ -1,10 +1,12 @@
-import json, yaml, io
+import json, yaml, io, sys
+import numpy as np
 from collections import Counter
 
 class States:
     stateFile = open('states.json','r')
     states = yaml.safe_load(stateFile.read())
     stateStrings = states.keys()
+    years = range(2000,2016,2)
 
 
     def getState(self,strState):
@@ -15,6 +17,28 @@ class States:
     def printState(self,strState):
         assert strState in self.stateStrings, "Not a valid US state."
         print json.dumps(self.states[strState], indent = 2)
+
+
+    def getStateVariance(self,strState,year):# returns the variance for a state for 2004
+        stateSet = self.getState(strState)
+        stateSetKeys = stateSet.keys();
+
+        repubToDemRatios = []
+        for districtName in stateSetKeys:
+            try:
+                ratio = self.getDistrictRepub(strState,districtName,year)
+            except KeyError:
+                return None
+            repubToDemRatios.append(ratio)
+        return np.var(repubToDemRatios)
+
+    def getStateVarianceHistory(self,strState):
+        variances = {}
+        for year in self.years:
+            variances[year] = self.getStateVariance(strState,year)
+        return {k: v for k, v in variances.items() if v is not None }
+
+
 
     def printAllDistricts(self):
         for strState in self.states.keys():
