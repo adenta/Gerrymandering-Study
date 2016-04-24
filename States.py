@@ -16,6 +16,16 @@ class States:
         assert strState in self.stateStrings, "Not a valid US state."
         print json.dumps(self.states[strState], indent = 2)
 
+    def printAllDistricts(self):
+        for strState in self.states.keys():
+            for district in self.getState(strState):
+                for year in self.states[strState][district].keys():
+                    print "REP %",self.getDistrictRepub(strState,district,year)
+
+    def printDistrictReport(self,strState,distNum):
+        print json.dumps(self.getDistrictReport(strState,distNum), indent = 2, sort_keys = True)
+
+
     def sanatizeInputs(self,distNum,year):
         if isinstance(distNum,basestring):
             sanatizedDistNum = distNum
@@ -33,7 +43,9 @@ class States:
         return self.states[strState][sanatizedDistNum][sanatizedYear]
 
     def getDistrictHistory(self,strState,distNum):
-        pass
+        sanatizedDistNum = self.sanatizeInputs(distNum,-1)[0] # how can I improve this so I only sanatize one input at a time?
+        return self.states[strState][sanatizedDistNum]
+
 
 
 
@@ -62,12 +74,29 @@ class States:
     def getDistrictDemo(self,strState,distNum,year): # returns percentage of democrats against total votes for a given district- state- year
         return 1.0-getDistrictRepub(self,strState,distNum,year)
 
-    def printAllDistricts(self):
-        for strState in self.states.keys():
-            for district in self.getState(strState):
-                for year in self.states[strState][district].keys():
-                    print "REP %",self.getDistrictRepub(strState,district,year)
-
-    # returns dictionary of the changes between each district over time.
+    # returns dictionary of the  percentage change between how many people voted republican each district over time.
     def getDistrictChanges(self,strState,distNum):
-        deltaPercentages = {}
+        districtHistory = self.getDistrictHistory(strState,distNum)
+        yearsActive = sorted([int(k) for k in districtHistory.keys()])
+        districtDelta = {}
+
+        for i in range(1,len(yearsActive)):
+            currentYear = str(yearsActive[i])
+            prevYear = str(yearsActive[i-1])
+
+            currentPercent = self.getDistrictRepub(strState,distNum,currentYear)
+            prevPercent = self.getDistrictRepub(strState,distNum,prevYear)
+
+            reportObject = {}
+            reportObject['delta'] = (currentPercent - prevPercent)
+            reportObject['to'] = currentPercent
+            reportObject['from'] = prevPercent
+
+
+            districtDelta[prevYear + "-" + currentYear] = reportObject
+
+        return districtDelta
+
+    def getDistrictReport(self,strState,distNum):
+        return {"historic results":self.getDistrictHistory(strState,distNum),
+        "delta per year":self.getDistrictChanges(strState,distNum)}
