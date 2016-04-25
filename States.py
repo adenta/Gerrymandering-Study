@@ -13,12 +13,6 @@ class States:
         assert strState in self.stateStrings, "Not a valid US state."
         return self.states[strState]
 
-
-    def printState(self,strState):
-        assert strState in self.stateStrings, "Not a valid US state."
-        print json.dumps(self.states[strState], indent = 2)
-
-
     def getStateVariance(self,strState,year):# returns the variance for a state for 2004
         stateSet = self.getState(strState)
         stateSetKeys = stateSet.keys();
@@ -38,6 +32,20 @@ class States:
             variances[year] = self.getStateVariance(strState,year)
         return {k: v for k, v in variances.items() if v is not None }
 
+    def getStatesVarianceHistory(self):
+        stateVariances = []
+        for state in self.stateStrings:
+            for year in self.years:
+                variance = {}
+                variance['state'] = state
+                variance['variance'] = self.getStateVariance(state,year)
+                variance['year'] = year
+                if variance['variance'] is not None and variance['variance'] > 0:
+                    stateVariances.append(variance)
+
+        return stateVariances
+
+
 
 
     def printAllDistricts(self):
@@ -49,6 +57,21 @@ class States:
     def printDistrictReport(self,strState,distNum):
         print json.dumps(self.getDistrictReport(strState,distNum), indent = 2, sort_keys = True)
 
+    def printState(self,strState):
+        assert strState in self.stateStrings, "Not a valid US state."
+        print json.dumps(self.states[strState], indent = 2)
+
+    def printStateVarianceReport(self,strState):
+        print strState + ":"
+        print json.dumps(self.getStateVarianceHistory(strState), indent = 2, sort_keys = True)
+
+    def printVarianceReport(self):
+        print json.dumps(self.getStatesVarianceHistory(), indent = 2, sort_keys = True)
+
+
+    def writeVarianceReport(self):
+        f = open('variances.json','w')
+        f.write( json.dumps(self.getStatesVarianceHistory(), indent = 2, sort_keys = True))
 
     def sanatizeInputs(self,distNum,year):
         if isinstance(distNum,basestring):
@@ -69,9 +92,6 @@ class States:
     def getDistrictHistory(self,strState,distNum):
         sanatizedDistNum = self.sanatizeInputs(distNum,-1)[0] # how can I improve this so I only sanatize one input at a time?
         return self.states[strState][sanatizedDistNum]
-
-
-
 
     #returns the percentage of republican votes to democratic votes
     def getDistrictRepub(self,strState,distNum,year):
