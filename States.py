@@ -1,4 +1,4 @@
-import json, yaml, io, sys
+import json, yaml, io, sys, random
 import numpy as np
 from collections import Counter
 
@@ -6,6 +6,7 @@ class States:
     stateFile = open('states.json','r')
     states = yaml.safe_load(stateFile.read())
     stateStrings = states.keys()
+    stateDatasetFolder = './stateDatasets/'
     years = range(2000,2016,2)
 
 
@@ -22,37 +23,45 @@ class States:
             try:
                 ratio = self.getDistrictRepub(strState,districtName,year)
             except KeyError:
-                return None
+                continue
             repubToDemRatios.append(ratio)
         return np.var(repubToDemRatios)
 
-    def getStateVarianceHistory(self,strState):
-        variances = {}
-        for year in self.years:
-            variances[year] = self.getStateVariance(strState,year)
-        return {k: v for k, v in variances.items() if v is not None }
 
-    def getStatesVarianceHistory(self):
+    def getStateVarianceHistory(self,state):
         stateVariances = []
-        for state in self.stateStrings:
-            for year in self.years:
-                variance = {}
-                variance['state'] = state
-                variance['variance'] = self.getStateVariance(state,year)
-                variance['year'] = year
-                if variance['variance'] is not None and variance['variance'] > 0:
-                    stateVariances.append(variance)
+        for year in self.years:
+            variance = {}
+            variance['line'] = state
+            variance['value'] = self.getStateVariance(state,year)
+            variance['year'] = year
+            if variance['value'] is not None and variance['value'] > 0:
+                stateVariances.append(variance)
+
+        return stateVariances
+
+    def getStatesVarianceHistory(self,listOfStates):
+        if listOfStates == None:
+            listOfStates = self.stateStrings
+        stateVariances = []
+        for state in listOfStates:
+            stateVariances += self.getStateVarianceHistory(state)
 
         return stateVariances
 
 
-
-
-    def printAllDistricts(self):
+    def printAllDistrictErrors(self):
+        errors = Counter()
         for strState in self.states.keys():
             for district in self.getState(strState):
                 for year in self.states[strState][district].keys():
-                    print "REP %",self.getDistrictRepub(strState,district,year)
+                    for party in self.states[strState][district][year].keys():
+                        if self.states[strState][district][year][party] == -1:
+                            errors.update({strState:1})
+
+        difference = set(self.states.keys()).difference(set(errors.keys()))
+        print errors
+        print "good states",difference
 
     def printDistrictReport(self,strState,distNum):
         print json.dumps(self.getDistrictReport(strState,distNum), indent = 2, sort_keys = True)
@@ -68,10 +77,18 @@ class States:
     def printVarianceReport(self):
         print json.dumps(self.getStatesVarianceHistory(), indent = 2, sort_keys = True)
 
+    def writeStateDistrictReport(self,state):
+        f = open(self.stateDatasetFolder + 'dist-' + state  + '.json','w')
+        f.write( json.dumps(self.getStateDistrictHistory(state), indent = 2, sort_keys = True))
 
-    def writeVarianceReport(self):
+    def writeStateVarianceReport(self,state):
+        f = open(self.stateDatasetFolder + 'var-' + state + '.json','w')
+        f.write( json.dumps(self.getStateVarianceHistory(state), indent = 2, sort_keys = True))
+
+    def writeVarianceReport(self,listOfStates):
         f = open('variances.json','w')
-        f.write( json.dumps(self.getStatesVarianceHistory(), indent = 2, sort_keys = True))
+
+        f.write( json.dumps(self.getStatesVarianceHistory(listOfStates), indent = 2, sort_keys = True))
 
     def sanatizeInputs(self,distNum,year):
         if isinstance(distNum,basestring):
@@ -103,8 +120,8 @@ class States:
         if 'D' not in district.keys():
             return 1
 
-        if district['R']<=1:
-            if district['R'] ==-1:
+        if district['R']<=1: # Republican party election is either uncontested, or missing.
+            if district['R'] ==-1: # election was missing.
                 print "Warning! missing election- Repub:",strState,distNum,year
             return 0
 
@@ -144,3 +161,17 @@ class States:
     def getDistrictReport(self,strState,distNum):
         return {"historic results":self.getDistrictHistory(strState,distNum),
         "delta per year":self.getDistrictChanges(strState,distNum)}
+
+    def getStateDistrictHistory(self,state):
+        stateHistory = []
+        for year in self.years:
+            for district in self.states[state].keys():
+                try:
+                    dataPoint = {}
+                    dataPoint['line'] = district.replace(" ","")
+                    dataPoint['value'] = self.getDistrictRepub(state,district,year)
+                    dataPoint['year'] = year
+                    stateHistory.append(dataPoint)
+                except KeyError:
+                    print "missing year" , str(year)
+        return stateHistory

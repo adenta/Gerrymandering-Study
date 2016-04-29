@@ -1,4 +1,4 @@
-import utils, os, json,csv
+import utils, os, json, csv
 from States import States
 
 
@@ -29,7 +29,7 @@ assert states.getDistrictRepub("FL",2,2006) == 0, "Democratic Unopposed case fai
 
 
 # Extra printed content
-states.printDistrictReport("NC",12)
+states.printDistrictReport("CO",5)
+states.writeVarianceReport(['OH', 'CO', 'IA', 'NE', 'NH', 'VI', 'FL'])
 
-states.writeVarianceReport()
 print "all tests pass!"

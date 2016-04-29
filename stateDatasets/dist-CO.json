@@ -1,0 +1,277 @@
+[
+  {
+    "line": "district4", 
+    "value": 1, 
+    "year": 2000
+  }, 
+  {
+    "line": "district5", 
+    "value": 1, 
+    "year": 2000
+  }, 
+  {
+    "line": "district6", 
+    "value": 0.5611997872830168, 
+    "year": 2000
+  }, 
+  {
+    "line": "district1", 
+    "value": 0.284122914164, 
+    "year": 2000
+  }, 
+  {
+    "line": "district2", 
+    "value": 0.4124981608145988, 
+    "year": 2000
+  }, 
+  {
+    "line": "district3", 
+    "value": 0.6937884196778407, 
+    "year": 2000
+  }, 
+  {
+    "line": "district4", 
+    "value": 0.5686687239349693, 
+    "year": 2002
+  }, 
+  {
+    "line": "district5", 
+    "value": 0.737560807115512, 
+    "year": 2002
+  }, 
+  {
+    "line": "district6", 
+    "value": 0.690122426991285, 
+    "year": 2002
+  }, 
+  {
+    "line": "district7", 
+    "value": 0.5003701279235517, 
+    "year": 2002
+  }, 
+  {
+    "line": "district1", 
+    "value": 0.3086842984616527, 
+    "year": 2002
+  }, 
+  {
+    "line": "district2", 
+    "value": 0.37958888420037373, 
+    "year": 2002
+  }, 
+  {
+    "line": "district3", 
+    "value": 0.6778721413279267, 
+    "year": 2002
+  }, 
+  {
+    "line": "district4", 
+    "value": 0.5326980223383544, 
+    "year": 2004
+  }, 
+  {
+    "line": "district5", 
+    "value": 0.7229266614566, 
+    "year": 2004
+  }, 
+  {
+    "line": "district6", 
+    "value": 0.6033722011751095, 
+    "year": 2004
+  }, 
+  {
+    "line": "district7", 
+    "value": 0.5611452128958555, 
+    "year": 2004
+  }, 
+  {
+    "line": "district1", 
+    "value": 0.248833440798181, 
+    "year": 2004
+  }, 
+  {
+    "line": "district2", 
+    "value": 0.3117261471230881, 
+    "year": 2004
+  }, 
+  {
+    "line": "district3", 
+    "value": 0.479442206215494, 
+    "year": 2004
+  }, 
+  {
+    "line": "district4", 
+    "value": 0.5140153644369496, 
+    "year": 2006
+  }, 
+  {
+    "line": "district5", 
+    "value": 0.5963569510631607, 
+    "year": 2006
+  }, 
+  {
+    "line": "district6", 
+    "value": 0.5951958862574163, 
+    "year": 2006
+  }, 
+  {
+    "line": "district7", 
+    "value": 0.43365542348587655, 
+    "year": 2006
+  }, 
+  {
+    "line": "district1", 
+    "value": 0, 
+    "year": 2006
+  }, 
+  {
+    "line": "district2", 
+    "value": 0.2932015707626796, 
+    "year": 2006
+  }, 
+  {
+    "line": "district3", 
+    "value": 0.3724220068717922, 
+    "year": 2006
+  }, 
+  {
+    "line": "district4", 
+    "value": 0.4380313038052901, 
+    "year": 2008
+  }, 
+  {
+    "line": "district5", 
+    "value": 0.6184175877598698, 
+    "year": 2008
+  }, 
+  {
+    "line": "district6", 
+    "value": 0.6066894306898369, 
+    "year": 2008
+  }, 
+  {
+    "line": "district7", 
+    "value": 0.3651795294787477, 
+    "year": 2008
+  }, 
+  {
+    "line": "district1", 
+    "value": 0.24841572544651092, 
+    "year": 2008
+  }, 
+  {
+    "line": "district2", 
+    "value": 0.35102838170976547, 
+    "year": 2008
+  }, 
+  {
+    "line": "district3", 
+    "value": 0.38387252096336066, 
+    "year": 2008
+  }, 
+  {
+    "line": "district4", 
+    "value": 0.5592719145726008, 
+    "year": 2010
+  }, 
+  {
+    "line": "district5", 
+    "value": 0.6919472263976674, 
+    "year": 2010
+  }, 
+  {
+    "line": "district6", 
+    "value": 0.6760812168217963, 
+    "year": 2010
+  }, 
+  {
+    "line": "district7", 
+    "value": 0.43861021560293584, 
+    "year": 2010
+  }, 
+  {
+    "line": "district1", 
+    "value": 0.299004103693324, 
+    "year": 2010
+  }, 
+  {
+    "line": "district2", 
+    "value": 0.39760772912431874, 
+    "year": 2010
+  }, 
+  {
+    "line": "district3", 
+    "value": 0.5200383607895664, 
+    "year": 2010
+  }, 
+  {
+    "line": "district4", 
+    "value": 0.6138806529038753, 
+    "year": 2012
+  }, 
+  {
+    "line": "district5", 
+    "value": 1, 
+    "year": 2012
+  }, 
+  {
+    "line": "district6", 
+    "value": 0.5109092325671991, 
+    "year": 2012
+  }, 
+  {
+    "line": "district7", 
+    "value": 0.432518676561149, 
+    "year": 2012
+  }, 
+  {
+    "line": "district1", 
+    "value": 0.2817960313909479, 
+    "year": 2012
+  }, 
+  {
+    "line": "district2", 
+    "value": 0.4092607644244924, 
+    "year": 2012
+  }, 
+  {
+    "line": "district3", 
+    "value": 0.5645484155010039, 
+    "year": 2012
+  }, 
+  {
+    "line": "district4", 
+    "value": 0.6887691947408919, 
+    "year": 2014
+  }, 
+  {
+    "line": "district5", 
+    "value": 0.5979798748359362, 
+    "year": 2014
+  }, 
+  {
+    "line": "district6", 
+    "value": 0.5469284902826383, 
+    "year": 2014
+  }, 
+  {
+    "line": "district7", 
+    "value": 0.44927046217066763, 
+    "year": 2014
+  }, 
+  {
+    "line": "district1", 
+    "value": 0.30565647458166484, 
+    "year": 2014
+  }, 
+  {
+    "line": "district2", 
+    "value": 0.4325687609302057, 
+    "year": 2014
+  }, 
+  {
+    "line": "district3", 
+    "value": 0.6189311817750356, 
+    "year": 2014
+  }
+]

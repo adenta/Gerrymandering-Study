@@ -1,7 +1,8 @@
-import csv, os
-import copy
+import csv, os, copy, math
 from itertools import izip
 
+
+# lots of depreciated legacy code. CleanNumber is still used in the final scraping of data.
 parties = ['D','R']
 
 states = ['WA', 'DE', 'DC', 'WI', 'WV', 'HI', 'FL', 'WY', 'NH', 'NJ', 'NM', 'TX', 'LA', 'NC', 'ND', 'NE', 'TN', 'NY', 'PA',
@@ -13,6 +14,11 @@ folder = "tables"
 paths = [os.path.join(folder,fn) for fn in next(os.walk(folder))[2]]
 
 years = [int(year[7:-4].replace("-flat","")) for year in paths]
+
+def entropy(distr):
+    return -sum([p * math.log(p,2) for p in distr if p != 0])
+
+
 
 def cleanNumber(numString):
 
